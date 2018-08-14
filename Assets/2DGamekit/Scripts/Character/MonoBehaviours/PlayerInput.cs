@@ -2,182 +2,162 @@
 
 namespace Gamekit2D
 {
-    public class PlayerInput : InputComponent, IDataPersister
-    {
-        public static PlayerInput Instance
-        {
-            get { return s_Instance; }
-        }
+	public class PlayerInput : InputComponent, IDataPersister
+	{
+		public static PlayerInput Instance {
+			get { return s_Instance; }
+		}
 
-        protected static PlayerInput s_Instance;
-    
-    
-        public bool HaveControl { get { return m_HaveControl; } }
+		protected static PlayerInput s_Instance;
 
-        public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu);
-        public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y);
-        public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X);
-        public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B);
-        public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A);
-        public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, MobileTouchAreas.RightArea, MobileTouchAreas.LeftArea);
-        public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, MobileTouchAreas.None, MobileTouchAreas.None);
-        [HideInInspector]
-        public DataSettings dataSettings;
 
-        protected bool m_HaveControl = true;
+		public bool HaveControl { get { return m_HaveControl; } }
 
-        protected bool m_DebugMenuIsOpen = false;
+		public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu, MobileInputManager.TouchInput.None);
+		public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y, MobileInputManager.TouchInput.None);
+		public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X, MobileInputManager.TouchInput.None);
+		public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B, MobileInputManager.TouchInput.None);
+		public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, MobileInputManager.TouchInput.SwipeUp);
+		public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, MobileInputManager.TouchInput.TouchRight, MobileInputManager.TouchInput.TouchLeft);
+		public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, MobileInputManager.TouchInput.SwipeUp, MobileInputManager.TouchInput.SwipeDown);
+		[HideInInspector]
+		public DataSettings dataSettings;
 
-        void Awake ()
-        {
-            if (s_Instance == null)
-                s_Instance = this;
-            else
-                throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
-        }
+		protected bool m_HaveControl = true;
 
-        void OnEnable()
-        {
-            if (s_Instance == null)
-                s_Instance = this;
-            else if(s_Instance != this)
-                throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
-        
-            PersistentDataManager.RegisterPersister(this);
-        }
+		protected bool m_DebugMenuIsOpen = false;
 
-        void OnDisable()
-        {
-            PersistentDataManager.UnregisterPersister(this);
+		void Awake() {
+			if (s_Instance == null)
+				s_Instance = this;
+			else
+				throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
+		}
 
-            s_Instance = null;
-        }
+		void OnEnable() {
+			if (s_Instance == null)
+				s_Instance = this;
+			else if (s_Instance != this)
+				throw new UnityException("There cannot be more than one PlayerInput script.  The instances are " + s_Instance.name + " and " + name + ".");
 
-        protected override void GetInputs(bool fixedUpdateHappened)
-        {
-            Pause.Get(fixedUpdateHappened, inputType);
-            Interact.Get(fixedUpdateHappened, inputType);
-            MeleeAttack.Get(fixedUpdateHappened, inputType);
-            RangedAttack.Get(fixedUpdateHappened, inputType);
-            Jump.Get(fixedUpdateHappened, inputType);
-            Horizontal.Get(inputType);
-            Vertical.Get(inputType);
+			PersistentDataManager.RegisterPersister(this);
+		}
 
-            if (Input.GetKeyDown(KeyCode.F12))
-            {
-                m_DebugMenuIsOpen = !m_DebugMenuIsOpen;
-            }
-        }
+		void OnDisable() {
+			PersistentDataManager.UnregisterPersister(this);
 
-        public override void GainControl()
-        {
-            m_HaveControl = true;
+			s_Instance = null;
+		}
 
-            GainControl(Pause);
-            GainControl(Interact);
-            GainControl(MeleeAttack);
-            GainControl(RangedAttack);
-            GainControl(Jump);
-            GainControl(Horizontal);
-            GainControl(Vertical);
-        }
+		protected override void GetInputs(bool fixedUpdateHappened) {
+			Pause.Get(fixedUpdateHappened, inputType);
+			Interact.Get(fixedUpdateHappened, inputType);
+			MeleeAttack.Get(fixedUpdateHappened, inputType);
+			RangedAttack.Get(fixedUpdateHappened, inputType);
+			Jump.Get(fixedUpdateHappened, inputType);
+			Horizontal.Get(inputType);
+			Vertical.Get(inputType);
 
-        public override void ReleaseControl(bool resetValues = true)
-        {
-            m_HaveControl = false;
+			if (Input.GetKeyDown(KeyCode.F12)) {
+				m_DebugMenuIsOpen = !m_DebugMenuIsOpen;
+			}
+		}
 
-            ReleaseControl(Pause, resetValues);
-            ReleaseControl(Interact, resetValues);
-            ReleaseControl(MeleeAttack, resetValues);
-            ReleaseControl(RangedAttack, resetValues);
-            ReleaseControl(Jump, resetValues);
-            ReleaseControl(Horizontal, resetValues);
-            ReleaseControl(Vertical, resetValues);
-        }
+		public override void GainControl() {
+			m_HaveControl = true;
 
-        public void DisableMeleeAttacking()
-        {
-            MeleeAttack.Disable();
-        }
+			GainControl(Pause);
+			GainControl(Interact);
+			GainControl(MeleeAttack);
+			GainControl(RangedAttack);
+			GainControl(Jump);
+			GainControl(Horizontal);
+			GainControl(Vertical);
+		}
 
-        public void EnableMeleeAttacking()
-        {
-            MeleeAttack.Enable();
-        }
+		public override void ReleaseControl(bool resetValues = true) {
+			m_HaveControl = false;
 
-        public void DisableRangedAttacking()
-        {
-            RangedAttack.Disable();
-        }
+			ReleaseControl(Pause, resetValues);
+			ReleaseControl(Interact, resetValues);
+			ReleaseControl(MeleeAttack, resetValues);
+			ReleaseControl(RangedAttack, resetValues);
+			ReleaseControl(Jump, resetValues);
+			ReleaseControl(Horizontal, resetValues);
+			ReleaseControl(Vertical, resetValues);
+		}
 
-        public void EnableRangedAttacking()
-        {
-            RangedAttack.Enable();
-        }
+		public void DisableMeleeAttacking() {
+			MeleeAttack.Disable();
+		}
 
-        public DataSettings GetDataSettings()
-        {
-            return dataSettings;
-        }
+		public void EnableMeleeAttacking() {
+			MeleeAttack.Enable();
+		}
 
-        public void SetDataSettings(string dataTag, DataSettings.PersistenceType persistenceType)
-        {
-            dataSettings.dataTag = dataTag;
-            dataSettings.persistenceType = persistenceType;
-        }
+		public void DisableRangedAttacking() {
+			RangedAttack.Disable();
+		}
 
-        public Data SaveData()
-        {
-            return new Data<bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled);
-        }
+		public void EnableRangedAttacking() {
+			RangedAttack.Enable();
+		}
 
-        public void LoadData(Data data)
-        {
-            Data<bool, bool> playerInputData = (Data<bool, bool>)data;
+		public DataSettings GetDataSettings() {
+			return dataSettings;
+		}
 
-            if (playerInputData.value0)
-                MeleeAttack.Enable();
-            else
-                MeleeAttack.Disable();
+		public void SetDataSettings(string dataTag, DataSettings.PersistenceType persistenceType) {
+			dataSettings.dataTag = dataTag;
+			dataSettings.persistenceType = persistenceType;
+		}
 
-            if (playerInputData.value1)
-                RangedAttack.Enable();
-            else
-                RangedAttack.Disable();
-        }
+		public Data SaveData() {
+			return new Data<bool, bool>(MeleeAttack.Enabled, RangedAttack.Enabled);
+		}
 
-        void OnGUI()
-        {
-            if (m_DebugMenuIsOpen)
-            {
-                const float height = 100;
+		public void LoadData(Data data) {
+			Data<bool, bool> playerInputData = (Data<bool, bool>)data;
 
-                GUILayout.BeginArea(new Rect(30, Screen.height - height, 200, height));
+			if (playerInputData.value0)
+				MeleeAttack.Enable();
+			else
+				MeleeAttack.Disable();
 
-                GUILayout.BeginVertical("box");
-                GUILayout.Label("Press F12 to close");
+			if (playerInputData.value1)
+				RangedAttack.Enable();
+			else
+				RangedAttack.Disable();
+		}
 
-                bool meleeAttackEnabled = GUILayout.Toggle(MeleeAttack.Enabled, "Enable Melee Attack");
-                bool rangeAttackEnabled = GUILayout.Toggle(RangedAttack.Enabled, "Enable Range Attack");
+		void OnGUI() {
+			if (m_DebugMenuIsOpen) {
+				const float height = 100;
 
-                if (meleeAttackEnabled != MeleeAttack.Enabled)
-                {
-                    if (meleeAttackEnabled)
-                        MeleeAttack.Enable();
-                    else
-                        MeleeAttack.Disable();
-                }
+				GUILayout.BeginArea(new Rect(30, Screen.height - height, 200, height));
 
-                if (rangeAttackEnabled != RangedAttack.Enabled)
-                {
-                    if (rangeAttackEnabled)
-                        RangedAttack.Enable();
-                    else
-                        RangedAttack.Disable();
-                }
-                GUILayout.EndVertical();
-                GUILayout.EndArea();
-            }
-        }
-    }
+				GUILayout.BeginVertical("box");
+				GUILayout.Label("Press F12 to close");
+
+				bool meleeAttackEnabled = GUILayout.Toggle(MeleeAttack.Enabled, "Enable Melee Attack");
+				bool rangeAttackEnabled = GUILayout.Toggle(RangedAttack.Enabled, "Enable Range Attack");
+
+				if (meleeAttackEnabled != MeleeAttack.Enabled) {
+					if (meleeAttackEnabled)
+						MeleeAttack.Enable();
+					else
+						MeleeAttack.Disable();
+				}
+
+				if (rangeAttackEnabled != RangedAttack.Enabled) {
+					if (rangeAttackEnabled)
+						RangedAttack.Enable();
+					else
+						RangedAttack.Disable();
+				}
+				GUILayout.EndVertical();
+				GUILayout.EndArea();
+			}
+		}
+	}
 }

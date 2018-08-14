@@ -5,10 +5,15 @@ using UnityEngine.EventSystems;
 
 public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
-	Image image;
+	Image _image;
+
+	[SerializeField]
+	MobileInputManager.TouchInput _touchInput;
 
 	void Start() {
-		image = GetComponent<Image>();
+		_image = GetComponent<Image>();
+
+		MobileInputManager.Instance.Register(this);
 	}
 
 	void Update() {
@@ -17,9 +22,9 @@ public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 		if (Pressed)
 			colorAlpha = 0.25f;
 
-		Color c = image.color;
+		Color c = _image.color;
 		c.a = colorAlpha;
-		image.color = c;
+		_image.color = c;
 	}
 
 	public bool Pressed {
@@ -36,5 +41,11 @@ public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
 	public void OnPointerClick(PointerEventData eventData) {
 		Pressed = true;
+	}
+
+	public MobileInputManager.TouchInput TouchInput {
+		get {
+			return _touchInput;
+		}
 	}
 }

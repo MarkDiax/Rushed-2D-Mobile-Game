@@ -1432,22 +1432,27 @@ MonoBehaviour:
   Pause:
     key: 27
     controllerButton: 8
+    touchInput: 0
     m_Enabled: 1
   Interact:
     key: 101
     controllerButton: 4
+    touchInput: 0
     m_Enabled: 1
   MeleeAttack:
     key: 107
     controllerButton: 3
+    touchInput: 0
     m_Enabled: 0
   RangedAttack:
     key: 111
     controllerButton: 10
+    touchInput: 0
     m_Enabled: 0
   Jump:
     key: 32
     controllerButton: 1
+    touchInput: 3
     m_Enabled: 1
   Horizontal:
     keyboardPositive: 100

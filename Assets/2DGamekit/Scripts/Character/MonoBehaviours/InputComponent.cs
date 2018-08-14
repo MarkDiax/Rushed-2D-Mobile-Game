@@ -14,15 +14,6 @@ namespace Gamekit2D
 			Mobile,
 		}
 
-		public enum MobileTouchAreas
-		{
-			None,
-			LeftArea,
-			RightArea,
-			SwipeUp,
-			SwipeDown,
-		}
-
 		public enum XboxControllerButtons
 		{
 			None,
@@ -58,6 +49,7 @@ namespace Gamekit2D
 		{
 			public KeyCode key;
 			public XboxControllerButtons controllerButton;
+			public MobileInputManager.TouchInput touchInput;
 			public bool Down { get; protected set; }
 			public bool Held { get; protected set; }
 			public bool Up { get; protected set; }
@@ -89,9 +81,10 @@ namespace Gamekit2D
 				{(int)XboxControllerButtons.RightBumper, "Right Bumper"},
 			};
 
-			public InputButton(KeyCode key, XboxControllerButtons controllerButton) {
+			public InputButton(KeyCode key, XboxControllerButtons controllerButton, MobileInputManager.TouchInput touchInput) {
 				this.key = key;
 				this.controllerButton = controllerButton;
+				this.touchInput = touchInput;
 			}
 
 			public void Get(bool fixedUpdateHappened, InputType inputType) {
@@ -145,6 +138,26 @@ namespace Gamekit2D
 						m_AfterFixedUpdateUp |= Up;
 					}
 				}
+				else if (inputType == InputType.Mobile) {
+					if (fixedUpdateHappened) {
+						Down = MobileInputManager.Instance.GetInput(touchInput);
+						Held = MobileInputManager.Instance.GetInput(touchInput);
+						Up = !Down;
+
+						m_AfterFixedUpdateDown = Down;
+						m_AfterFixedUpdateHeld = Held;
+						m_AfterFixedUpdateUp = Up;
+					}
+					else {
+						Down = MobileInputManager.Instance.GetInput(touchInput) || m_AfterFixedUpdateDown;
+						Held = MobileInputManager.Instance.GetInput(touchInput) || m_AfterFixedUpdateHeld;
+						Up = !Down || m_AfterFixedUpdateUp;
+
+						m_AfterFixedUpdateDown |= Down;
+						m_AfterFixedUpdateHeld |= Held;
+						m_AfterFixedUpdateUp |= Up;
+					}
+				}
 			}
 
 			public void Enable() {
@@ -186,8 +199,8 @@ namespace Gamekit2D
 			public KeyCode keyboardPositive;
 			public KeyCode keyboardNegative;
 			public XboxControllerAxes controllerAxis;
-			public MobileTouchAreas mobilePositive;
-			public MobileTouchAreas mobileNegative;
+			public MobileInputManager.TouchInput mobilePositive;
+			public MobileInputManager.TouchInput mobileNegative;
 			public float Value { get; protected set; }
 			public bool ReceivingInput { get; protected set; }
 			public bool Enabled {
@@ -208,7 +221,7 @@ namespace Gamekit2D
 				{(int)XboxControllerAxes.RightTrigger, "Right Trigger"},
 			};
 
-			public InputAxis(KeyCode keyboardPositive, KeyCode keyboardNegative, XboxControllerAxes controllerAxis, MobileTouchAreas mobilePositive, MobileTouchAreas mobileNegative) {
+			public InputAxis(KeyCode keyboardPositive, KeyCode keyboardNegative, XboxControllerAxes controllerAxis, MobileInputManager.TouchInput mobilePositive, MobileInputManager.TouchInput mobileNegative) {
 				this.keyboardPositive = keyboardPositive;
 				this.keyboardNegative = keyboardNegative;
 				this.controllerAxis = controllerAxis;
@@ -239,8 +252,8 @@ namespace Gamekit2D
 					negativeHeld = Input.GetKey(keyboardNegative);
 				}
 				else if (inputType == InputType.Mobile) {
-					positiveHeld = MobileInputRegister.Instance.GetButton(mobilePositive).Pressed;
-					negativeHeld = MobileInputRegister.Instance.GetButton(mobileNegative).Pressed;
+					positiveHeld = MobileInputManager.Instance.GetInput(mobilePositive);
+					negativeHeld = MobileInputManager.Instance.GetInput(mobileNegative);
 				}
 
 				if (positiveHeld == negativeHeld)
@@ -249,7 +262,7 @@ namespace Gamekit2D
 					Value = 1f;
 				else
 					Value = -1f;
-				
+
 				ReceivingInput = positiveHeld || negativeHeld;
 			}
 

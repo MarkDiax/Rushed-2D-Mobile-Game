@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32eeec63c2947404f96a03d7f1850d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _touchInput: 2
 --- !u!114 &114533650628130170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32eeec63c2947404f96a03d7f1850d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _touchInput: 1
 --- !u!114 &114534575079415548
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -208,12 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
-  DebugCursor: {fileID: 114849925372296194}
-  _mobileInputs:
-  - button: {fileID: 114533650628130170}
-    inputArea: 1
-  - button: {fileID: 114456221666689340}
-    inputArea: 2
+  _debugCursor: {fileID: 114849925372296194}
+  Swipe: {fileID: 0}
 --- !u!114 &114849925372296194
 MonoBehaviour:
   m_ObjectHideFlags: 1
