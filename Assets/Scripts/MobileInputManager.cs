@@ -13,6 +13,7 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 		SwipeDown,
 		SwipeLeft,
 		SwipeRight,
+		Tap,
 	}
 
 	[SerializeField]
@@ -26,16 +27,6 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 	private void Awake() {
 		Swipe = gameObject.AddComponent<SwipeInput>();
 		_mobileButtons = new List<MobileButton>();
-	}
-
-	private void Update() {
-		if (Input.touchCount > 0) {
-			_debugCursor.transform.position = Input.GetTouch(0).position;
-		}
-
-		//for (int i = 0; i < _mobileInputs.Count; i++) {
-		//	print(_mobileInputs[i].name + " being pressed: " + _mobileInputs[i].Pressed);
-		//}
 	}
 
 	public bool GetInput(TouchInput input) {
@@ -56,6 +47,8 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 			return Swipe.SwipeUp;
 		if (input == TouchInput.SwipeDown)
 			return Swipe.SwipeDown;
+		if (input == TouchInput.Tap)
+			return Swipe.Tap;
 		#endregion
 
 		return false;
@@ -68,15 +61,15 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 
 	public class SwipeInput : MonoBehaviour
 	{
-		bool _tap, _isDragging;
+		bool _isDragging;
 		Vector2 _startTouch;
 		int _swipeDeadzone = 125;
 
 		void Update() {
-			_tap = SwipeLeft = SwipeRight = SwipeUp = SwipeDown = false;
+			Tap = SwipeLeft = SwipeRight = SwipeUp = SwipeDown = false;
 			#region Standalone Input
 			if (Input.GetMouseButtonDown(0)) {
-				_tap = true;
+				Tap = true;
 				_isDragging = true;
 				_startTouch = Input.mousePosition;
 			}
@@ -88,7 +81,7 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 			#region Mobile Input
 			if (Input.touchCount > 0) {
 				if (Input.GetTouch(0).phase == TouchPhase.Began) {
-					_tap = true;
+					Tap = true;
 					_isDragging = true;
 					_startTouch = Input.GetTouch(0).position;
 				}
@@ -144,6 +137,8 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 		}
 
 		public Vector2 SwipeDelta { get; private set; }
+
+		public bool Tap { get; private set; }
 		public bool SwipeLeft { get; private set; }
 		public bool SwipeRight { get; private set; }
 		public bool SwipeUp { get; private set; }

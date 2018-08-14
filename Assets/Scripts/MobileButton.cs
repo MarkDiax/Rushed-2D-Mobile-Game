@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+public class MobileButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 	Image _image;
 
@@ -20,32 +20,26 @@ public class MobileButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 		float colorAlpha = 0f;
 
 		if (Pressed)
-			colorAlpha = 0.25f;
+			colorAlpha = 0.15f;
 
 		Color c = _image.color;
 		c.a = colorAlpha;
 		_image.color = c;
 	}
 
+	public void OnPointerEnter(PointerEventData eventData) {
+		Pressed = true;
+	}
+
+	public void OnPointerExit(PointerEventData eventData) {
+		Pressed = false;
+	}
+
 	public bool Pressed {
 		get; protected set;
 	}
 
-	public void OnPointerDown(PointerEventData eventData) {
-		Pressed = true;
-	}
-
-	public void OnPointerUp(PointerEventData eventData) {
-		Pressed = false;
-	}
-
-	public void OnPointerClick(PointerEventData eventData) {
-		Pressed = true;
-	}
-
 	public MobileInputManager.TouchInput TouchInput {
-		get {
-			return _touchInput;
-		}
+		get { return _touchInput; }
 	}
 }
