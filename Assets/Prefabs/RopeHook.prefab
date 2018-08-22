@@ -39,7 +39,7 @@ Transform:
   m_GameObject: {fileID: 1610068308385476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.523, y: -3.4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -92,7 +92,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodePrefab: {fileID: 1984523744565828, guid: 89259c03fe6e0c641a5a982c9f1eff6d, type: 2}
   moveSpeed: 0.2
-  nodeDistance: 3
+  nodeSpawnDistance: 2
+  nodeMinimumDistance: 0.7
 --- !u!212 &212763572814516472
 SpriteRenderer:
   m_ObjectHideFlags: 1
