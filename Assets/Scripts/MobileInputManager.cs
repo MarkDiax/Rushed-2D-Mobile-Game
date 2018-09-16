@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MobileInputManager : MonoSingleton<MobileInputManager>
 {
-	public enum TouchInput
+	public enum MobileInputKeys
 	{
 		None,
 		TouchLeft,
@@ -16,10 +16,8 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 		Tap,
 	}
 
-	[SerializeField]
-	Image _debugCursor;
-
 	List<MobileButton> _mobileButtons;
+	List<MobileInputKeys> _registeredInputs;
 
 	[HideInInspector]
 	public SwipeInput Swipe;
@@ -27,9 +25,19 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 	private void Awake() {
 		Swipe = gameObject.AddComponent<SwipeInput>();
 		_mobileButtons = new List<MobileButton>();
+		_registeredInputs = new List<MobileInputKeys>();
 	}
 
-	public bool GetInput(TouchInput input) {
+	public void ClickTest() {
+		print("click");
+
+	}
+
+	public bool GetInput(MobileInputKeys input, bool checkForOtherInputs) {
+		return GetInput(input);
+	}
+
+	public bool GetInput(MobileInputKeys input) {
 		//check all MobileButtons
 		for (int i = 0; i < _mobileButtons.Count; i++) {
 			if (_mobileButtons[i].TouchInput == input) {
@@ -39,24 +47,38 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 
 		//Check all swipes
 		#region Swipes
-		if (input == TouchInput.SwipeLeft)
+		if (input == MobileInputKeys.SwipeLeft)
 			return Swipe.SwipeLeft;
-		if (input == TouchInput.SwipeRight)
+		if (input == MobileInputKeys.SwipeRight)
 			return Swipe.SwipeRight;
-		if (input == TouchInput.SwipeUp)
+		if (input == MobileInputKeys.SwipeUp)
 			return Swipe.SwipeUp;
-		if (input == TouchInput.SwipeDown)
+		if (input == MobileInputKeys.SwipeDown)
 			return Swipe.SwipeDown;
-		if (input == TouchInput.Tap)
+		if (input == MobileInputKeys.Tap)
 			return Swipe.Tap;
 		#endregion
 
 		return false;
 	}
 
-	public void Register(MobileButton Button) {
+
+	public void RegisterButton(MobileButton Button) {
 		if (!_mobileButtons.Contains(Button))
 			_mobileButtons.Add(Button);
+	}
+
+	public Vector2 GetWorldPointOfMousePosition() {
+		Camera cam = Camera.main;
+
+		float mouseX = Input.mousePosition.x;
+		float mouseY = Input.mousePosition.y;
+		float distanceFromCamera = Mathf.Abs(cam.transform.position.z);
+
+		Vector3 weirdTriplet = new Vector3(mouseX, mouseY, distanceFromCamera);
+		Vector2 worldPos = cam.ScreenToWorldPoint(weirdTriplet);
+
+		return worldPos;
 	}
 
 	public class SwipeInput : MonoBehaviour
@@ -92,6 +114,10 @@ public class MobileInputManager : MonoSingleton<MobileInputManager>
 
 			#endregion
 
+			CheckSwipes();
+		}
+
+		private void CheckSwipes() {
 			//Calculating SwipeDelta
 			SwipeDelta = Vector2.zero;
 			if (_isDragging) {

@@ -49,7 +49,7 @@ namespace Gamekit2D
 		{
 			public KeyCode key;
 			public XboxControllerButtons controllerButton;
-			public MobileInputManager.TouchInput touchInput;
+			public MobileInputManager.MobileInputKeys touchInput;
 			public bool Down { get; protected set; }
 			public bool Held { get; protected set; }
 			public bool Up { get; protected set; }
@@ -81,7 +81,7 @@ namespace Gamekit2D
 				{(int)XboxControllerButtons.RightBumper, "Right Bumper"},
 			};
 
-			public InputButton(KeyCode key, XboxControllerButtons controllerButton, MobileInputManager.TouchInput touchInput) {
+			public InputButton(KeyCode key, XboxControllerButtons controllerButton, MobileInputManager.MobileInputKeys touchInput) {
 				this.key = key;
 				this.controllerButton = controllerButton;
 				this.touchInput = touchInput;
@@ -199,8 +199,8 @@ namespace Gamekit2D
 			public KeyCode keyboardPositive;
 			public KeyCode keyboardNegative;
 			public XboxControllerAxes controllerAxis;
-			public MobileInputManager.TouchInput mobilePositive;
-			public MobileInputManager.TouchInput mobileNegative;
+			public MobileInputManager.MobileInputKeys mobilePositive;
+			public MobileInputManager.MobileInputKeys mobileNegative;
 			public float Value { get; protected set; }
 			public bool ReceivingInput { get; protected set; }
 			public bool Enabled {
@@ -221,7 +221,7 @@ namespace Gamekit2D
 				{(int)XboxControllerAxes.RightTrigger, "Right Trigger"},
 			};
 
-			public InputAxis(KeyCode keyboardPositive, KeyCode keyboardNegative, XboxControllerAxes controllerAxis, MobileInputManager.TouchInput mobilePositive, MobileInputManager.TouchInput mobileNegative) {
+			public InputAxis(KeyCode keyboardPositive, KeyCode keyboardNegative, XboxControllerAxes controllerAxis, MobileInputManager.MobileInputKeys mobilePositive, MobileInputManager.MobileInputKeys mobileNegative) {
 				this.keyboardPositive = keyboardPositive;
 				this.keyboardNegative = keyboardNegative;
 				this.controllerAxis = controllerAxis;

@@ -8,12 +8,12 @@ public class MobileButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	Image _image;
 
 	[SerializeField]
-	MobileInputManager.TouchInput _touchInput;
+	MobileInputManager.MobileInputKeys _touchInput;
 
 	void Start() {
 		_image = GetComponent<Image>();
 
-		MobileInputManager.Instance.Register(this);
+		MobileInputManager.Instance.RegisterButton(this);
 	}
 
 	void Update() {
@@ -39,7 +39,7 @@ public class MobileButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		get; protected set;
 	}
 
-	public MobileInputManager.TouchInput TouchInput {
+	public MobileInputManager.MobileInputKeys TouchInput {
 		get { return _touchInput; }
 	}
 }

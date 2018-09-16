@@ -13,13 +13,13 @@ namespace Gamekit2D
 
 		public bool HaveControl { get { return m_HaveControl; } }
 
-		public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu, MobileInputManager.TouchInput.None);
-		public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y, MobileInputManager.TouchInput.None);
-		public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X, MobileInputManager.TouchInput.None);
-		public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B, MobileInputManager.TouchInput.None);
-		public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, MobileInputManager.TouchInput.SwipeUp);
-		public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, MobileInputManager.TouchInput.TouchRight, MobileInputManager.TouchInput.TouchLeft);
-		public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, MobileInputManager.TouchInput.SwipeUp, MobileInputManager.TouchInput.SwipeDown);
+		public InputButton Pause = new InputButton(KeyCode.Escape, XboxControllerButtons.Menu, MobileInputManager.MobileInputKeys.None);
+		public InputButton Interact = new InputButton(KeyCode.E, XboxControllerButtons.Y, MobileInputManager.MobileInputKeys.None);
+		public InputButton MeleeAttack = new InputButton(KeyCode.K, XboxControllerButtons.X, MobileInputManager.MobileInputKeys.None);
+		public InputButton RangedAttack = new InputButton(KeyCode.O, XboxControllerButtons.B, MobileInputManager.MobileInputKeys.None);
+		public InputButton Jump = new InputButton(KeyCode.Space, XboxControllerButtons.A, MobileInputManager.MobileInputKeys.SwipeUp);
+		public InputAxis Horizontal = new InputAxis(KeyCode.D, KeyCode.A, XboxControllerAxes.LeftstickHorizontal, MobileInputManager.MobileInputKeys.TouchRight, MobileInputManager.MobileInputKeys.TouchLeft);
+		public InputAxis Vertical = new InputAxis(KeyCode.W, KeyCode.S, XboxControllerAxes.LeftstickVertical, MobileInputManager.MobileInputKeys.SwipeUp, MobileInputManager.MobileInputKeys.SwipeDown);
 		[HideInInspector]
 		public DataSettings dataSettings;
 

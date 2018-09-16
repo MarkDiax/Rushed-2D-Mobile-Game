@@ -4,24 +4,44 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-	public Rope ropeHookPrefab;
-	public float ropeClimbSpeed;
+	public BoxCollider2D touchCollider;
+	public GrappleGun grappleGun;
 
-	Rope _currentRope;
+	public float grappleMoveSpeed;
+	public float grappleReleaseVelocityMultiplier;
+	Rigidbody2D _rigidbody;
+	Vector2 _velocity;
 
-	void Update() {
-		if (Input.GetMouseButtonDown(0)) {
-			if (_currentRope != null) {
-				Destroy(_currentRope.gameObject);
+	private void Start() {
+		_rigidbody = GetComponent<Rigidbody2D>();
+	}
+
+	private void Update() {
+
+		if (grappleGun.Target != null && grappleGun.Target.IsReady) {
+			if (Vector2.Distance(grappleGun.transform.position, grappleGun.Target.transform.position) > 1f) {
+				Vector2 moveDirection = grappleGun.Target.transform.position - grappleGun.transform.position;
+				Vector2 moveNormalized = moveDirection.normalized;
+
+				Move(moveNormalized, grappleMoveSpeed);
 			}
-
-			_currentRope = Instantiate(ropeHookPrefab, (Vector2)transform.position, Quaternion.identity);
-			_currentRope.SetDestination(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+			else {
+				grappleGun.DestroyLine();
+				_rigidbody.AddForce(_velocity * grappleReleaseVelocityMultiplier, ForceMode2D.Impulse);
+			}
 		}
 
-		float vertical = Input.GetAxis("Vertical");
-		if (_currentRope != null) {
-			_currentRope.Traverse(vertical, ropeClimbSpeed);
-		}
+		if (Input.GetKeyDown(KeyCode.W))
+			_rigidbody.AddForce(Vector2.up * 500);
+	}
+
+	private void Move(Vector3 MoveDir, float Multiplier) {
+		Vector2 oldPos = transform.position;
+		transform.position += (MoveDir * Multiplier) * Time.deltaTime;
+		_velocity = ((Vector2)transform.position - oldPos);
+	}
+
+	public void ShootGrapple() {
+		grappleGun.ShootGrapple();
 	}
 }

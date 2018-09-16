@@ -8,7 +8,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/2DGamekit/Scenes/Start.unity
     guid: 57df1e417250bc247976c2c0dc088efe
-  - enabled: 1
+  - enabled: 0
     path: Assets/2DGamekit/Scenes/Zone1.unity
     guid: a94cb8f134bf81349ad016c79b629e3d
   - enabled: 0
@@ -29,4 +29,16 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/2DGamekit/Scenes/UI/Loading.unity
     guid: ebc4647ff02971c4ba1b207af066be4d
+  - enabled: 0
+    path: Assets/Scenes/RopeTest.unity
+    guid: 1de2dfed4364e664a95f217ffbcd83f6
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/Zone1 (Copy).unity
+    guid: 971a36fce9275254fad525894331b84e
+  - enabled: 1
+    path: Assets/Scenes/Temp_Scene.unity
+    guid: b2fd385c0b3a91b48acb77679be800fb
   m_configObjects: {}
