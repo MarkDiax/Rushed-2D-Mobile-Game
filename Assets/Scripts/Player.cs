@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoSingleton<Player>
 {
-	public BoxCollider2D touchCollider;
-	public GrappleGun grappleGun;
+	//Public player data
+	public PlayerData playerData;
 
+	//player inspector variables
+	public GrappleGun grappleGun;
 	public float grappleMoveSpeed;
 	public float grappleReleaseVelocityMultiplier;
+
 	Rigidbody2D _rigidbody;
 	Vector2 _velocity;
 
-	private void Start() {
+	private void Awake() {
+		playerData = gameObject.AddComponent<PlayerData>();
 		_rigidbody = GetComponent<Rigidbody2D>();
 	}
 
 	private void Update() {
-
 		if (grappleGun.Target != null && grappleGun.Target.IsReady) {
 			if (Vector2.Distance(grappleGun.transform.position, grappleGun.Target.transform.position) > 1f) {
 				Vector2 moveDirection = grappleGun.Target.transform.position - grappleGun.transform.position;
@@ -27,12 +30,9 @@ public class Player : MonoBehaviour
 			}
 			else {
 				grappleGun.DestroyLine();
-				_rigidbody.AddForce(_velocity * grappleReleaseVelocityMultiplier, ForceMode2D.Impulse);
+				ThrowPlayer();
 			}
 		}
-
-		if (Input.GetKeyDown(KeyCode.W))
-			_rigidbody.AddForce(Vector2.up * 500);
 	}
 
 	private void Move(Vector3 MoveDir, float Multiplier) {
@@ -42,6 +42,13 @@ public class Player : MonoBehaviour
 	}
 
 	public void ShootGrapple() {
+		if (grappleGun.Target != null)
+			ThrowPlayer();
+
 		grappleGun.ShootGrapple();
+	}
+
+	public void ThrowPlayer() {
+		_rigidbody.AddForce(_velocity * grappleReleaseVelocityMultiplier, ForceMode2D.Impulse);
 	}
 }

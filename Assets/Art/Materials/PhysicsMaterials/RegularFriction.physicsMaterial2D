@@ -6,5 +6,5 @@ PhysicsMaterial2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: RegularFriction
-  friction: 0.8
+  friction: 0.9
   bounciness: 0
