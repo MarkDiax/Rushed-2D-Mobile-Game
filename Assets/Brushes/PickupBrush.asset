@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5270cafd0cb0742a2315c0288c949c, type: 3}
+  m_Name: PickupBrush
+  m_EditorClassIdentifier: 
+  m_Prefabs:
+  - {fileID: 1703614652370462, guid: 37dc7e168fbab734db74d8b9a42d74bd, type: 2}
+  m_PerlinScale: 0.5
+  m_Z: 0

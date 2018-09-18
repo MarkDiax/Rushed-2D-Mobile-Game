@@ -39,11 +39,11 @@ TagManager:
   - PlayerDrop
   - Platform
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3178494701
+    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: Water
-    uniqueID: 2116099231
     locked: 0
   - name: Level
     uniqueID: 2344118779
@@ -51,6 +51,6 @@ TagManager:
   - name: Front
     uniqueID: 3405993979
     locked: 0
-  - name: Debug
-    uniqueID: 3178494701
+  - name: PlayerControlled
+    uniqueID: 870834499
     locked: 0
